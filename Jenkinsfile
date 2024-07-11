@@ -33,6 +33,9 @@ pipeline {
                     // Use bash shell instead of default shell
                     sh '''
                         #!/bin/bash
+                        # Navigate to the correct directory
+                        cd ~/docker-k8s-jenkins-project/docker-jenkins-k8s-project
+                        
                         # Add a debugging step to list files in the current directory
                         ls -l
                         
@@ -53,7 +56,12 @@ pipeline {
                     // Retrieve Config file from jenkins credentials
                     withKubeConfig([credentialsId: 'k8s-config', serverUrl: 'https://10.0.0.100:6443']) {
                         // Authenticate with kubernetes cluster
-                        sh 'kubectl apply -f deployment.yaml'
+                        sh '''
+                            #!/bin/bash
+                            # Navigate to the correct directory
+                            cd ~/docker-k8s-jenkins-project/docker-jenkins-k8s-project
+                            kubectl apply -f deployment.yaml
+                        '''
                     }
                 }
             }
