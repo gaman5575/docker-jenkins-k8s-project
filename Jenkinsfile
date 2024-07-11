@@ -33,8 +33,8 @@ pipeline {
                     // Use bash shell instead of default shell
                     sh '''
                         #!/bin/bash
-                        # Navigate to the correct directory
-                        cd ~/docker-k8s-jenkins-project/docker-jenkins-k8s-project
+                        # Navigate to the correct directory relative to the workspace
+                        cd ${WORKSPACE}/docker-jenkins-k8s-project
                         
                         # Add a debugging step to list files in the current directory
                         ls -l
@@ -58,8 +58,8 @@ pipeline {
                         // Authenticate with kubernetes cluster
                         sh '''
                             #!/bin/bash
-                            # Navigate to the correct directory
-                            cd ~/docker-k8s-jenkins-project/docker-jenkins-k8s-project
+                            # Navigate to the correct directory relative to the workspace
+                            cd ${WORKSPACE}/docker-jenkins-k8s-project
                             kubectl apply -f deployment.yaml
                         '''
                     }
