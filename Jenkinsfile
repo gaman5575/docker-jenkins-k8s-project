@@ -30,7 +30,7 @@ pipeline {
         stage('Update YAML Tag') {
             steps {
                 script{
-                    sh "sed -i "s|image:.*|image: docker.io/gaman5575/todo-app:${params.Docker_tag}|g" deployment.yaml"
+                    sh "sed -i 's|image:.*|image: docker.io/gaman5575/todo-app:${params.Docker_tag}|g' deployment.yaml"
                 }
             }
         }
