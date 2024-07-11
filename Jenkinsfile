@@ -17,7 +17,7 @@ pipeline {
                 script {
                      // Make sure Docker is installed and configure on Jenkins
                      def dockerImage = docker.build("docker.io/gaman5575/todo-app:${params.Docker_tag}", "-f Dockerfile .")
-                     docker.withRegistry('', 'docker-credentials'){
+                     docker.withRegistry('', 'docker_credentials'){
                         dockerImage.push("${params.Docker_tag}")
                     }
                 }
