@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Docker Image Scan  For Vulanerabilities') {
             steps {
-                sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.51.1 image docker.io/aryansr/todo-app:${params.Docker_tag}'
+                sh 'docker run -v /var/run/docker.sock:/var/run/docker.sock -v $HOME/Library/Caches:/root/.cache/ aquasec/trivy:0.51.1 image docker.io/gaman5575/todo-app:${params.Docker_tag}'
             }
         }
         stage('Update YAML Tag') {
