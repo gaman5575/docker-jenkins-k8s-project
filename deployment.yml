@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-app
+  template:
+    metadata:
+      labels:
+        app: todo-app
+    spec:
+      containers:
+      - name: todo-app
+        image: todo-app:1.0
+        ports:
+        - containerPort: 200
+        env:
+        - name: FLASK_ENV
+          value: production
+        resources:
+          limits:
+            cpu: "400m"
+            memory: "300Mi"
+          requests:
+            cpu: "100m"
+            memory: "200Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-app-service
+spec:
+  selector:
+    app: todo-app
+  ports:
+  - protocol: TCP
+    port: 200
+    targetPort: 200
+    nodePort: 32000
+  type: NodePort
+
