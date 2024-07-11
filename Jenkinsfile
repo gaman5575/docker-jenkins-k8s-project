@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                // Checkout the Respository containing the Dockerfile
+                // Checkout the Repository containing the Dockerfile
                 git branch: 'main',
                     url: 'https://github.com/gaman5575/docker-jenkins-project.git'
             }
@@ -29,18 +29,31 @@ pipeline {
         }
         stage('Update YAML Tag') {
             steps {
-                script{
-                    sh "sed -i 's|image:.*|image: docker.io/gaman5575/todo-app:${params.Docker_tag}|g' deployment.yaml"
+                script {
+                    // Use bash shell instead of default shell
+                    sh '''
+                        #!/bin/bash
+                        # Add a debugging step to list files in the current directory
+                        ls -l
+                        
+                        # Check if deployment.yaml file exists
+                        if [ -f deployment.yaml ]; then
+                            sed -i 's|image:.*|image: docker.io/gaman5575/todo-app:${params.Docker_tag}|g' deployment.yaml
+                        else
+                            echo "Error: deployment.yaml file not found"
+                            exit 1
+                        fi
+                    '''
                 }
             }
         }
-        stage('Deploy to Kubernetes Cluster'){
-            steps{
-                script{
-                  // Retrieve Config file from jenkins credentials
-                withKubeConfig([credentialsId: 'k8s-config', serverUrl: ' https://10.0.0.100:6443' ]) {
-                    // Authenticate with kubernetes cluster
-                    sh 'kubectl apply -f deployment.yaml'
+        stage('Deploy to Kubernetes Cluster') {
+            steps {
+                script {
+                    // Retrieve Config file from jenkins credentials
+                    withKubeConfig([credentialsId: 'k8s-config', serverUrl: 'https://10.0.0.100:6443']) {
+                        // Authenticate with kubernetes cluster
+                        sh 'kubectl apply -f deployment.yaml'
                     }
                 }
             }
