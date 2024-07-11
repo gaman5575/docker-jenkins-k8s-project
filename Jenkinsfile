@@ -35,7 +35,7 @@ pipeline {
             }
         }
         stage('Deploy to Kubernetes Cluster'){
-            stage{
+            steps{
                 script{
                   // Retrieve Config file from jenkins credentials
                 withKubeConfig([credentialsId: 'k8s-config', serverUrl: ' https://10.0.0.100:6443' ]) {
