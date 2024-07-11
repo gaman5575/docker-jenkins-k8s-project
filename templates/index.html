@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-5">To-Do List</h1>
+      <form action="/add" method="post" class="form-inline my-3">
+        <input type="text" name="task" class="form-control mr-2" placeholder="New task">
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+      <ul class="list-group">
+        {% for task in tasks %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ task }}
+            <a href="/delete/{{ loop.index0 }}" class="btn btn-danger btn-sm">Delete</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </body>
+</html>
+
