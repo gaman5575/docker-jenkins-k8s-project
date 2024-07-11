@@ -33,10 +33,18 @@ pipeline {
                     // Use bash shell instead of default shell
                     sh '''
                         #!/bin/bash
-                        # Navigate to the correct directory relative to the workspace
-                        cd ${WORKSPACE}/docker-jenkins-k8s-project
+                        # Print the current directory for debugging
+                        echo "Current directory: $(pwd)"
                         
-                        # Add a debugging step to list files in the current directory
+                        # List directories for debugging
+                        echo "Listing directories in workspace:"
+                        ls -l ${WORKSPACE}
+                        
+                        # Navigate to the correct directory relative to the workspace
+                        cd ${WORKSPACE}/docker-jenkins-k8s-project || exit 1
+                        
+                        # List files in the target directory for debugging
+                        echo "Listing files in target directory:"
                         ls -l
                         
                         # Check if deployment.yaml file exists
@@ -58,8 +66,17 @@ pipeline {
                         // Authenticate with kubernetes cluster
                         sh '''
                             #!/bin/bash
+                            # Print the current directory for debugging
+                            echo "Current directory: $(pwd)"
+                            
                             # Navigate to the correct directory relative to the workspace
-                            cd ${WORKSPACE}/docker-jenkins-k8s-project
+                            cd ${WORKSPACE}/docker-jenkins-k8s-project || exit 1
+                            
+                            # List files in the target directory for debugging
+                            echo "Listing files in target directory:"
+                            ls -l
+                            
+                            # Apply the deployment
                             kubectl apply -f deployment.yaml
                         '''
                     }
