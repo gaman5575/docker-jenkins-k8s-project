@@ -8,7 +8,7 @@ pipeline {
             steps {
                 // Checkout the Respository containing the Dockerfile
                 git branch: 'main',
-                    url: 'https://github.com/gaman5575/docker-jenkins-project.git'
+                    url: 'https://github.com/gaman5575/docker-jenkins-k8s-project.git'
             }
         }
         stage('Docker image build') {
